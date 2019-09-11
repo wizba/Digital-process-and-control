@@ -1,0 +1,521 @@
+
+///////////
+////////////
+Button.qml
+///////////
+///////////
+
+import QtQuick 2.0
+
+Rectangle
+{
+    id:root
+
+    // export button properties
+   // property alias text: label.text
+    property alias text: myLabel
+    signal clicked
+
+    width: 116;height: 26
+    border.color: "black"
+    border.width: 5
+
+    property color firstStop: "green"
+    property color secondStop: "black"
+
+    gradient:Gradient
+    {
+        GradientStop{position:0.0;color:root.firstStop }
+        GradientStop{position:1.0;color:root.secondStop }
+    }
+
+    anchors.centerIn: parent;
+
+
+
+    Text
+    {
+        id:myLabel
+        anchors.centerIn:parent
+        text:"secondBut"
+    }
+
+    MouseArea
+    {
+        anchors.fill: parent
+        onClicked:
+        {
+            root.clicked()
+
+        }
+    }
+
+
+}
+
+///////////
+////////////
+main.qml
+///////////
+///////////
+
+import QtQuick 2.6
+import QtQuick.Window 2.2
+
+
+
+Window
+{
+    visible: true
+    width: 640
+    height: 480
+
+    Rectangle
+    {
+        id:rec_but
+        height:50
+        width:70
+
+        radius:width/2
+
+
+        property color middleColor: "#F7E72F"//color property
+        property color bottmColor: "black"
+
+        Text
+        {
+           text: "start"
+           anchors.centerIn: parent
+        }
+
+        MouseArea
+        {
+            anchors.fill:parent
+            onClicked:
+            {
+                myText.text="buttonPressed"//calls my text object and changes its text
+                rec_but.middleColor="#2F8BF7"//changing property dynamically
+
+            }
+
+            //hoverEnabled
+            hoverEnabled: true  // Mandatory for hover events to work
+                    onEntered:
+                    {
+                        rec_but.bottmColor = "yellow";
+                    }
+                    onExited:
+                    {
+                        rec_but.bottmColor = "black";
+                    }
+        }
+
+        gradient: Gradient
+        {
+         GradientStop { position: 0.0; color:"white" }
+         GradientStop { position: 0.5; color: rec_but.middleColor }//it references the middleColor property of rect_but
+         GradientStop { position: 1.0; color: rec_but.bottmColor }
+        }
+
+
+    }
+
+    Text
+    {
+        id:myText
+
+        text:"waiting...."
+        width: rec_but.width
+        height: rec_but.height
+        anchors.top:rec_but.bottom
+
+        horizontalAlignment: Text.AlignHCenter//aligns the text
+    }
+
+    Button
+    {
+       id:myBUt
+        width: 116;height: 100
+
+
+        onClicked:
+        {
+            myBUt.firstStop= "deepskyblue"
+             myBUt.secondStop= "darkblue"
+
+        }
+
+    }
+
+}
+
+///////spining the car with Slider//////////////////
+import QtQuick 2.6
+import QtQuick.Window 2.2
+import QtQuick.Controls.Styles 1.1
+import QtQuick.Controls 1.4
+
+Window
+{
+    visible: true
+    width: 640
+    height: 480
+
+    Rectangle
+    {
+        id:rect_1
+        x:12
+        y:12
+        width:76;height:96
+        color:"lightsteelblue"
+
+        MouseArea
+        {
+            id:press
+            width:parent.width
+            height:parent.height
+
+            onClicked:
+            {
+                rect_1.visible=!rect_1.visible
+            }
+        }
+    }
+
+    Image {
+        id:img
+        source: "/files/IMAGES/SimpleGreenCarTopView.png"
+        width:90
+        height:118/2
+
+
+        anchors.centerIn: parent
+    }
+
+
+    Slider
+    {
+        id:mySlider
+        anchors.left:rect_1.right
+        minimumValue: 0
+        maximumValue: 360
+        value: 0//curent value
+        enabled:true
+
+
+        onValueChanged:
+        {
+
+            img.rotation=mySlider.value
+        }
+    }
+
+    Rectangle
+    {
+        id:button
+        anchors.bottom:img.top
+        width:76;height:96
+        color:"lightsteelblue"
+
+        Text
+        {
+            id:myTxt
+         anchors.centerIn: parent
+         text:"start"
+        }
+        MouseArea
+        {
+            id:press2
+            width:parent.width
+            height:parent.height
+
+            onClicked:
+            {
+                status.text="button clicked";
+            }
+        }
+
+    }
+
+    Text
+    {
+        id: status
+        anchors.top:myTxt.bottom
+        width: 116; height: 26
+        text: "waiting ..."
+        horizontalAlignment: Text.AlignHCenter
+    }
+
+}
+
+//////////////////////////////////
+clickable image and background
+///////////////////////////////////
+//////////////////////////////////
+//main.qml
+import QtQuick 2.6
+import QtQuick.Window 2.2
+
+Window
+{
+    visible: true
+    width: 640
+    height: 480
+
+    //background
+    ClickableImage
+    {
+        width: parent.width
+        height: parent.height
+
+
+        source: "file/IMAGES/402621654-chip-wallpapers.jpg"
+        onClicked:
+        {
+           plane.x=20
+        }
+
+        ClickableImage
+        {
+            id: plane
+            x: 20; y: 100
+
+            width:100
+            height: 70
+            source: "file/IMAGES/airplane23.png"
+            onClicked:
+            {
+                // increase the x-position on click
+                 x += 5
+            }
+        }
+    }
+
+
+
+}
+//////////////////////////////////
+clickable image and background
+///////////////////////////////////
+//////////////////////////////////
+ClickableImage.qml
+import QtQuick 2.0
+
+Image
+{
+    id:root
+    signal clicked
+
+    MouseArea
+    {
+
+        anchors.fill:parent
+
+        //resetting the picture to its position
+        onClicked:
+        {
+            root.clicked()
+        }
+    }
+}
+//////////////////////////////////////////////////////charpter 2////////////////////////////////////////////////////////////////
+/////////////////////////////////////////
+
+NB:Objects must start with a capital letter
+//layingout objects
+//MainSquare.qml
+/////////////////////////////////////////
+//MainSquare.qml
+
+DarkSquare
+{
+    id: root
+    width: 160
+    height: 160
+    color:"black"
+
+    Grid
+    {
+        id: grid
+        rows: 2//number of rows
+        columns: 2//number of columns
+        anchors.centerIn: parent//the greed is centered in its parent
+        spacing: 8//space between the squires
+        RedSquare { }
+        YellowSquare { }
+        BlueSquare { }
+        GreenSquare { }
+    }
+}
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+//-------2
+//DarkSquire.QML
+import QtQuick 2.0
+
+Rectangle {
+
+}
+
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+//-------3
+//GreenSquare.QML
+import QtQuick 2.0
+
+
+Rectangle
+{
+
+    width: 48
+    height: 48
+    color: "green"
+    border.color: Qt.lighter(color)
+}
+
+//RedSquare.QML
+//
+Rectangle
+{
+
+    width: 48
+    height: 48
+    color: "yellow"
+    border.color: Qt.lighter(color)
+}
+//////////////////////////////////////////
+///////////////////////////////////////////
+import QtQuick 2.0
+
+Rectangle
+{
+
+}
+
+DarkSquare
+{
+
+    width:parent.width
+    height: parent.height
+    color:"black"
+
+    Grid
+    {
+         id:grd
+         anchors.fill:parent
+         anchors.margins: 8
+         spacing: 4
+
+         rows:4
+         columns: 4
+         RedSquare{}
+         RedSquare{}
+         RedSquare{}
+         RedSquare{}
+         RedSquare{}
+         RedSquare{}
+         RedSquare{}
+         RedSquare{}
+         RedSquare{}
+         RedSquare{}
+         RedSquare{}
+         RedSquare{}
+         RedSquare{}
+         RedSquare{}
+         RedSquare{}
+         RedSquare{}
+    }
+}
+import QtQuick 2.0
+
+Rectangle
+{
+   width: 70
+   height: 70
+
+   color: "Red"
+
+}
+
+import QtQuick 2.6
+import QtQuick.Window 2.2
+
+Window {
+    visible: true
+    width: 640
+    height: 480
+    title: qsTr("Hello World")
+
+ MainGrid
+ {
+    anchors.centerIn: parent
+ }
+}
+
+///////////advanced anchoring//////////////////////////
+
+
+///////////advanced anchoring//////////////////////////
+//MainGrid_layout
+import QtQuick 2.0
+
+
+DarkSquare
+{
+    id:root
+
+    width:parent.width
+    height: parent.height
+    color:"black"
+    property variant colorArray: ["deepskyblue", "green", "red"]//Array for n
+    anchors.centerIn: parent
+    Grid
+    {
+        anchors.fill: parent
+        anchors.margins: 8
+        spacing: 4
+        columns:6//you can format the number of rows
+            Repeater//just a loops selector
+            {
+
+                model: 16//number of columsn
+                    Rectangle
+                    {
+                        width: 56; height: 56
+                        property int colorIndex: Math.floor(Math.random()*3)//randomises the selection of colors
+                        color: root.colorArray[colorIndex]
+                        border.color: Qt.lighter(color)
+                        Text
+                        {
+                            anchors.centerIn: parent
+                            color: "#f0f0f0"
+                            text: "Cell " + index//adding the index number
+                        }
+                     }
+            }
+    }
+}
+
+DarkSquare.qml
+import QtQuick 2.0
+
+Rectangle
+{
+
+}
+//////////////////////
+import QtQuick 2.0
+
+//DarkSquare.qml
+Rectangle
+{
+   width: 70
+   height: 70
+
+   color: "Red"
+
+}
+
+///////////advanced anchoring//////////////////////////

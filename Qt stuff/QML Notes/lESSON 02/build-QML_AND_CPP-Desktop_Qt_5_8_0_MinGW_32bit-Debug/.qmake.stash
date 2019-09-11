@@ -1,0 +1,14 @@
+QMAKE_DEFAULT_INCDIRS = \
+    C:/altera/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include \
+    C:/altera/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include-fixed \
+    C:/altera/Tools/mingw530_32/i686-w64-mingw32/include \
+    C:/altera/Tools/mingw530_32/i686-w64-mingw32/include/c++ \
+    C:/altera/Tools/mingw530_32/i686-w64-mingw32/include/c++/i686-w64-mingw32 \
+    C:/altera/Tools/mingw530_32/i686-w64-mingw32/include/c++/backward
+QMAKE_DEFAULT_LIBDIRS = \
+    C \
+    /altera/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/;C \
+    /altera/Tools/mingw530_32/lib/gcc/;C \
+    /altera/Tools/mingw530_32/i686-w64-mingw32/lib/;C \
+    /altera/Tools/mingw530_32/lib/;C \
+    /altera/Tools/mingw530_32/lib

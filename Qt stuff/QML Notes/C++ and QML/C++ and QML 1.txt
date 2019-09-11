@@ -1,0 +1,104 @@
+//main .cpp//////////////////////////////////////////////////////////////////////
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include<QQmlContext>
+#include"qmldemo.h"
+
+int main(int argc, char *argv[])
+{
+    QGuiApplication app(argc, argv);
+
+    QQmlApplicationEngine engine;
+    QQmlContext *c=engine.rootContext();
+    qmlDemo obj;
+
+    c->setContextProperty("obj_qml",&obj);
+
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+
+    return app.exec();
+}
+
+/////////////////////////////////////////qmldemo.cpp/////////////////////////////////////////////////
+#include "qmldemo.h"
+#include<QString>
+#include<QDebug>
+
+qmlDemo::qmlDemo(QObject *parent) : QObject(parent)
+{
+    count=0;
+   //mistake was to use count as a string
+}
+
+void qmlDemo::callMeFromQml()
+{
+   qDebug()<<"Qml called me"<<endl;
+   count++;
+   emit increaseOne( count );//called in Qml
+}
+/////////////////////////////////////////qmldemo.h/////////////////////////////////////////////////
+#ifndef QMLDEMO_H
+#define QMLDEMO_H
+
+#include <QObject>
+
+class qmlDemo : public QObject
+{
+    Q_OBJECT
+public:
+    explicit qmlDemo(QObject *parent = 0);
+
+signals:
+    void increaseOne(int ms);//returns an int
+
+public slots:
+    void callMeFromQml();
+private :
+    int count;
+    QString msg;
+};
+
+#endif // QMLDEMO_H
+
+/////////////////////////////////////////main.qml/////////////////////////////////////////////////
+import QtQuick 2.6
+import QtQuick.Window 2.2
+import QtQuick.Controls 1.4
+
+Window
+{
+    visible: true
+    width: 640
+    height: 480
+
+    Text {
+        id: txtCount
+        text: "0 Hits"
+    }
+        Connections
+        {
+            target: obj_qml
+            onIncreaseOne://called from c++ to return number
+            {
+
+                txtCount.text=ms
+            }
+        }
+
+
+
+        Button
+        {
+            id:myButt
+            text:"just click"
+            onClicked:
+            {
+
+                //obj_qml is the alias for obj from main
+                obj_qml.callMeFromQml()
+            }
+            anchors.top: txtCount.bottom
+
+        }
+
+}
